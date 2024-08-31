@@ -44,23 +44,23 @@ jobs:
           coverage run --source='.' manage.py test --no-input
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
-  deploy-caprover:
-    runs-on: ubuntu-latest
-    needs: [test]
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - uses: a7ul/tar-action@v1.1.0
-        with:
-          command: c
-          cwd: "./"
-          files: |
-            .
-          outPath: deploy.tar
-      - name: Deploy web app
-        uses: caprover/deploy-from-github@v1.0.1
-        with:
-          server: '${{ secrets.CAPROVER_SERVER }}'
-          app: '${{ secrets.CAPROVER_WEB_APP_NAME }}'
-          token: '${{ secrets.CAPROVER_WEB_APP_TOKEN }}'
+  # deploy-caprover:
+  #   runs-on: ubuntu-latest
+  #   needs: [test]
+  #   if: github.ref == 'refs/heads/main'
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+  #     - uses: a7ul/tar-action@v1.1.0
+  #       with:
+  #         command: c
+  #         cwd: "./"
+  #         files: |
+  #           .
+  #         outPath: deploy.tar
+  #     - name: Deploy web app
+  #       uses: caprover/deploy-from-github@v1.0.1
+  #       with:
+  #         server: '${{ secrets.CAPROVER_SERVER }}'
+  #         app: '${{ secrets.CAPROVER_WEB_APP_NAME }}'
+  #         token: '${{ secrets.CAPROVER_WEB_APP_TOKEN }}'
