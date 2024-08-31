@@ -1,6 +1,14 @@
 # Pull base image
 FROM python:3.12.2-slim-bookworm
 
+ARG DATABASE_URL
+ARG DEBUG
+ARG SECRET_KEY
+
+ENV DATABASE_URL=${DATABASE_URL}
+ENV DEBUG=${DEBUG}
+ENV SECRET_KEY=${SECRET_KEY}
+
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -22,6 +30,9 @@ COPY . /code/
 
 # Expose port 8000
 EXPOSE 80
+
+RUN python manage.py collectstatic --no-input
+RUN python manage.py migrate --no-input
 
 # Use gunicorn on port 8000
 CMD ["gunicorn", "--bind", ":80", "--workers", "5", "config.wsgi"]
