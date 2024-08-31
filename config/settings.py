@@ -53,17 +53,17 @@ MESSAGE_STORAGE = "django.contrib.messages.storage.fallback.FallbackStorage"
 
 DATABASES = {"default": env.db()}
 
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env("REDIS_URL"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": None},
-        },
-        "KEY_PREFIX": "teambio",
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": env("REDIS_URL"),
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#             "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": None},
+#         },
+#         "KEY_PREFIX": "teambio",
+#     }
+# }
 
 ROOT_URLCONF = "config.urls"
 
