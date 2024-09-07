@@ -14,6 +14,7 @@ SECRET_KEY = env("SECRET_KEY", default="fake_secret_key_switch_me_123451231")
 DEBUG = env("DEBUG", False)
 
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = []
 
 
 INSTALLED_APPS = [
