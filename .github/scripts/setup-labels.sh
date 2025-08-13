@@ -50,8 +50,36 @@ if [ ! -f ".github/labels.yml" ]; then
     exit 1
 fi
 
-# Create labels using gh CLI
-gh label create --repo "$REPO" --file .github/labels.yml
+# Create each label individually
+# Required labels for Dependabot auto-merge
+echo "Creating auto-merge label..."
+gh label create "auto-merge" --repo "$REPO" --color "0E8A16" --description "Automatically merge when all checks pass" --force
+
+echo "Creating security label..."
+gh label create "security" --repo "$REPO" --color "D93F0B" --description "Security-related updates and vulnerabilities" --force
+
+echo "Creating dependencies label..."
+gh label create "dependencies" --repo "$REPO" --color "0366D6" --description "Dependency updates and package management" --force
+
+echo "Creating python label..."
+gh label create "python" --repo "$REPO" --color "3776AB" --description "Python-specific changes and updates" --force
+
+echo "Creating github-actions label..."
+gh label create "github-actions" --repo "$REPO" --color "2088FF" --description "GitHub Actions workflow changes" --force
+
+echo "Creating docker label..."
+gh label create "docker" --repo "$REPO" --color "2496ED" --description "Docker-related changes and updates" --force
+
+# Standard issue labels
+echo "Creating standard issue labels..."
+gh label create "bug" --repo "$REPO" --color "D73A4A" --description "Something isn't working" --force
+gh label create "documentation" --repo "$REPO" --color "0075CA" --description "Improvements or additions to documentation" --force
+gh label create "enhancement" --repo "$REPO" --color "A2EEEF" --description "New feature or request" --force
+gh label create "good first issue" --repo "$REPO" --color "7057FF" --description "Good for newcomers" --force
+gh label create "help wanted" --repo "$REPO" --color "008672" --description "Extra attention is needed" --force
+gh label create "invalid" --repo "$REPO" --color "E4E669" --description "Something is wrong" --force
+gh label create "question" --repo "$REPO" --color "CC317C" --description "Further information is requested" --force
+gh label create "wontfix" --repo "$REPO" --color "FFFFFF" --description "This will not be worked on" --force
 
 echo -e "${GREEN}✅ All labels created successfully!${NC}"
 echo ""
