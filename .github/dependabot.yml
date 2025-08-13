@@ -15,9 +15,9 @@ updates:
       timezone: "America/New_York"  # Using EST/EDT timezone
     open-pull-requests-limit: 15  # Allows for both regular and security updates
     reviewers:
-      - "{{ github.repository_owner }}"  # Use repository owner instead of hardcoded username
+      - "aaronspindler"  # Repository owner
     assignees:
-      - "{{ github.repository_owner }}"  # Use repository owner instead of hardcoded username
+      - "aaronspindler"  # Repository owner
     commit-message:
       prefix: "chore"
       prefix-development: "chore"
@@ -53,9 +53,9 @@ updates:
       timezone: "America/New_York"  # Using EST/EDT timezone
     open-pull-requests-limit: 5
     reviewers:
-      - "{{ github.repository_owner }}"  # Use repository owner instead of hardcoded username
+      - "aaronspindler"  # Repository owner
     assignees:
-      - "{{ github.repository_owner }}"  # Use repository owner instead of hardcoded username
+      - "aaronspindler"  # Repository owner
     commit-message:
       prefix: "ci"
       include: "scope"
@@ -77,9 +77,9 @@ updates:
       timezone: "America/New_York"  # Using EST/EDT timezone
     open-pull-requests-limit: 5
     reviewers:
-      - "{{ github.repository_owner }}"  # Use repository owner instead of hardcoded username
+      - "aaronspindler"  # Repository owner
     assignees:
-      - "{{ github.repository_owner }}"  # Use repository owner instead of hardcoded username
+      - "aaronspindler"  # Repository owner
     commit-message:
       prefix: "ci"
       include: "scope"
