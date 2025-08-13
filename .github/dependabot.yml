@@ -1,11 +1,89 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+# Enhanced Dependabot configuration for template repositories
+# IMPORTANT: Update the username below when using this template
+# See: https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
 updates:
-  - package-ecosystem: "pip" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  # Python dependencies
+  # Note: Security updates are handled automatically by Dependabot and cannot be grouped
+  # They are created immediately when vulnerabilities are detected, regardless of schedule
+  - package-ecosystem: "pip"
+    directory: "/"
     schedule:
-      interval: "daily"
+      interval: "daily"  # Check daily for updates (most frequent option available)
+      time: "03:00"  # Run early morning to catch overnight releases
+      timezone: "America/New_York"  # Using EST/EDT timezone
+    open-pull-requests-limit: 15  # Allows for both regular and security updates
+    reviewers:
+      - "aaronspindler"  # Repository owner
+    assignees:
+      - "aaronspindler"  # Repository owner
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "python"
+      - "auto-merge"
+    ignore:
+      # Ignore major version updates for critical packages
+      - dependency-name: "django"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "psycopg2-binary"
+        update-types: ["version-update:semver-major"]
+    # Group minor and patch updates together
+    groups:
+      python-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+        exclude-patterns:
+          - "django"
+          - "psycopg2-binary"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"  # Changed from weekly to daily
+      time: "04:00"  # Run after Python dependencies
+      timezone: "America/New_York"  # Using EST/EDT timezone
+    open-pull-requests-limit: 5
+    reviewers:
+      - "aaronspindler"  # Repository owner
+    assignees:
+      - "aaronspindler"  # Repository owner
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "auto-merge"
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  # Docker (if you add Dockerfile dependencies)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"  # Changed from weekly to daily
+      time: "05:00"  # Run after GitHub Actions
+      timezone: "America/New_York"  # Using EST/EDT timezone
+    open-pull-requests-limit: 5
+    reviewers:
+      - "aaronspindler"  # Repository owner
+    assignees:
+      - "aaronspindler"  # Repository owner
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "auto-merge"
