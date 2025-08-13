@@ -1,5 +1,6 @@
 # Enhanced Dependabot configuration for template repositories
-# IMPORTANT: Update the username below when using this template
+# This configuration is template-ready and will work out of the box
+# Reviewers/assignees will default to repository owner if not specified
 # See: https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
@@ -14,10 +15,13 @@ updates:
       time: "03:00"  # Run early morning to catch overnight releases
       timezone: "America/New_York"  # Using EST/EDT timezone
     open-pull-requests-limit: 15  # Allows for both regular and security updates
-    reviewers:
-      - "aaronspindler"  # Repository owner
-    assignees:
-      - "aaronspindler"  # Repository owner
+    # Reviewers and assignees are optional
+    # If not specified, the repository owner will be used by default
+    # Uncomment and modify if you want specific reviewers/assignees:
+    # reviewers:
+    #   - "your-github-username"
+    # assignees:
+    #   - "your-github-username"
     commit-message:
       prefix: "chore"
       prefix-development: "chore"
@@ -52,10 +56,13 @@ updates:
       time: "04:00"  # Run after Python dependencies
       timezone: "America/New_York"  # Using EST/EDT timezone
     open-pull-requests-limit: 5
-    reviewers:
-      - "aaronspindler"  # Repository owner
-    assignees:
-      - "aaronspindler"  # Repository owner
+    # Reviewers and assignees are optional
+    # If not specified, the repository owner will be used by default
+    # Uncomment and modify if you want specific reviewers/assignees:
+    # reviewers:
+    #   - "your-github-username"
+    # assignees:
+    #   - "your-github-username"
     commit-message:
       prefix: "ci"
       include: "scope"
@@ -76,10 +83,13 @@ updates:
       time: "05:00"  # Run after GitHub Actions
       timezone: "America/New_York"  # Using EST/EDT timezone
     open-pull-requests-limit: 5
-    reviewers:
-      - "aaronspindler"  # Repository owner
-    assignees:
-      - "aaronspindler"  # Repository owner
+    # Reviewers and assignees are optional
+    # If not specified, the repository owner will be used by default
+    # Uncomment and modify if you want specific reviewers/assignees:
+    # reviewers:
+    #   - "your-github-username"
+    # assignees:
+    #   - "your-github-username"
     commit-message:
       prefix: "ci"
       include: "scope"

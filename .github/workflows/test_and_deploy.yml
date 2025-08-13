@@ -18,7 +18,7 @@ jobs:
   test-and-check:
     uses: ./.github/workflows/test-and-check.yml
     with:
-      python-version: '3.12.2'
+      python-version: '3.13.1'
       postgres-version: '15'
       upload-coverage: true
     # DATABASE_URL secret is optional - workflow will use local PostgreSQL if not provided

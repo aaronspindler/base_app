@@ -1,0 +1,61 @@
+# Pylint configuration file
+# https://pylint.readthedocs.io/
+
+[MASTER]
+load-plugins=pylint_django,pylint.extensions.docparams
+django-settings-module=config.settings
+ignore=migrations,venv,env,.venv
+ignore-patterns=test_.*\.py,conftest\.py
+
+[MESSAGES CONTROL]
+disable=
+    C0111,  # missing-docstring
+    C0103,  # invalid-name
+    C0114,  # missing-module-docstring
+    C0115,  # missing-class-docstring
+    C0116,  # missing-function-docstring
+    R0903,  # too-few-public-methods
+    R0901,  # too-many-ancestors
+    W0621,  # redefined-outer-name
+    W0613,  # unused-argument
+    W0622,  # redefined-builtin
+    R0801,  # duplicate-code
+    E1101,  # no-member (often false positive with Django)
+    W0212,  # protected-access
+    R0401,  # cyclic-import
+    R0913,  # too-many-arguments
+    R0914,  # too-many-locals
+    R0915,  # too-many-statements
+    W0223,  # abstract-method
+    W0511,  # fixme
+
+[FORMAT]
+max-line-length=88
+single-line-if-stmt=no
+max-module-lines=1000
+
+[BASIC]
+good-names=i,j,k,ex,Run,_,id,pk,qs,db,fp,e
+
+[DESIGN]
+max-parents=13
+max-attributes=10
+min-public-methods=0
+max-public-methods=20
+max-bool-expr=5
+max-args=8
+max-locals=15
+max-statements=50
+max-returns=6
+
+[CLASSES]
+defining-attr-methods=__init__,__new__,setUp,setUpClass,setUpTestData
+valid-classmethod-first-arg=cls
+valid-metaclass-classmethod-first-arg=cls
+exclude-protected=_meta
+
+[IMPORTS]
+allow-wildcard-with-all=no
+
+[EXCEPTIONS]
+overgeneral-exceptions=builtins.Exception
