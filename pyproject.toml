@@ -1,0 +1,342 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "base-app"
+version = "1.0.0"
+description = "A modern Django template repository with best practices"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Your Name", email = "your.email@example.com"},
+]
+keywords = ["django", "template", "webapp", "postgresql", "docker"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 5.1",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Internet :: WWW/HTTP :: WSGI",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = [
+    "Django>=5.1.0,<6.0",
+    "django-allauth>=65.0.0",
+    "django-crispy-forms>=2.3",
+    "crispy-bootstrap5>=2024.10",
+    "django-environ>=0.12.0",
+    "django-debug-toolbar>=4.4.0",
+    "psycopg[binary]>=3.2.0",
+    "gunicorn>=23.0.0",
+    "whitenoise>=6.8.0",
+    "Pillow>=11.0.0",
+    "redis>=5.2.1",
+    "celery>=5.4.0",
+    "django-extensions>=3.2.0",
+    "python-dateutil>=2.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-django>=4.9.0",
+    "pytest-cov>=6.0.0",
+    "pytest-xdist>=3.6.0",
+    "pytest-timeout>=2.3.0",
+    "factory-boy>=3.3.0",
+    "faker>=33.1.0",
+    "coverage[toml]>=7.6.0",
+    "black>=24.10.0",
+    "ruff>=0.9.0",
+    "mypy>=1.14.0",
+    "django-stubs>=5.1.0",
+    "pre-commit>=4.0.0",
+    "ipython>=8.31.0",
+    "django-silk>=5.3.0",
+    "watchdog>=6.0.0",
+]
+production = [
+    "sentry-sdk>=2.19.0",
+    "django-storages[s3]>=1.14.0",
+    "django-cors-headers>=4.6.0",
+    "django-csp>=4.0b1",
+    "django-ratelimit>=4.1.0",
+    "newrelic>=10.4.0",
+]
+docs = [
+    "sphinx>=8.1.0",
+    "sphinx-rtd-theme>=3.0.0",
+    "myst-parser>=4.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/base_app"
+Documentation = "https://base-app.readthedocs.io/"
+Repository = "https://github.com/yourusername/base_app.git"
+Issues = "https://github.com/yourusername/base_app/issues"
+
+[tool.setuptools]
+packages = ["accounts", "config", "pages"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"*" = ["*.html", "*.css", "*.js", "*.json", "*.png", "*.jpg", "*.svg", "*.ico"]
+
+# Black configuration
+[tool.black]
+line-length = 88
+target-version = ['py311', 'py312', 'py313']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | migrations
+  | venv
+  | env
+)/
+'''
+
+# isort configuration
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+skip = ["migrations", "venv", "env", ".venv"]
+skip_glob = ["*/migrations/*", "*/settings/*"]
+known_django = ["django"]
+known_first_party = ["accounts", "config", "pages"]
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+
+# Ruff configuration
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "migrations",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+    "DJ", # flake8-django
+    "RUF", # Ruff-specific rules
+    "S",  # flake8-bandit
+    "T20", # flake8-print
+    "SIM", # flake8-simplify
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "S101",  # Use of assert detected
+    "S106",  # Possible hardcoded password
+    "DJ001", # Avoid using null=True on string fields
+]
+
+[tool.ruff.lint.per-file-ignores]
+"*/tests/*" = ["S101", "S105", "S106"]
+"*/test_*.py" = ["S101", "S105", "S106"]
+"*/conftest.py" = ["S101"]
+"*/settings.py" = ["S105"]
+"*/settings/*.py" = ["S105"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["accounts", "config", "pages"]
+known-third-party = ["django"]
+
+# MyPy configuration
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+plugins = ["mypy_django_plugin.main"]
+exclude = [
+    "migrations/",
+    "venv/",
+    "env/",
+    ".venv/",
+    "tests/",
+]
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
+
+# Pytest configuration
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py", "*_test.py", "tests.py"]
+python_classes = ["Test*", "*Tests"]
+python_functions = ["test_*"]
+addopts = [
+    "--reuse-db",
+    "--nomigrations",
+    "--cov=.",
+    "--cov-report=html",
+    "--cov-report=term-missing:skip-covered",
+    "--cov-report=xml",
+    "--cov-config=pyproject.toml",
+    "-p no:warnings",
+    "--strict-markers",
+    "--tb=short",
+    "--maxfail=1",
+]
+testpaths = ["tests", "accounts/tests", "pages/tests"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "smoke: marks tests as smoke tests",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "*/migrations/*",
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/env/*",
+    ".venv/*",
+    "manage.py",
+    "*/settings/*",
+    "*/wsgi.py",
+    "*/asgi.py",
+    "*/apps.py",
+    "*/admin.py",
+    "conftest.py",
+    "setup.py",
+]
+branch = true
+data_file = ".coverage"
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+skip_empty = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "def __str__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "if typing.TYPE_CHECKING:",
+    "@abstractmethod",
+    "@abc.abstractmethod",
+    "except ImportError:",
+    "# nocov",
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"
+
+# Bandit configuration
+[tool.bandit]
+exclude_dirs = ["tests", "venv", "env", ".venv", "migrations"]
+skips = ["B101", "B601", "B104"]
+
+# Pylint configuration
+[tool.pylint.main]
+load-plugins = [
+    "pylint_django",
+    "pylint.extensions.docparams",
+]
+django-settings-module = "config.settings"
+ignore = ["migrations", "venv", "env", ".venv"]
+ignore-patterns = ["test_.*\\.py", "conftest\\.py"]
+
+[tool.pylint.messages_control]
+disable = [
+    "C0111",  # missing-docstring
+    "C0103",  # invalid-name
+    "R0903",  # too-few-public-methods
+    "R0901",  # too-many-ancestors
+    "W0621",  # redefined-outer-name
+    "W0613",  # unused-argument
+    "W0622",  # redefined-builtin
+    "R0801",  # duplicate-code
+]
+
+[tool.pylint.format]
+max-line-length = 88
+
+[tool.pylint.basic]
+good-names = ["i", "j", "k", "ex", "Run", "_", "id", "pk", "qs"]
+
+[tool.pylint.design]
+max-parents = 13
+
+# Commitizen configuration (for conventional commits)
+[tool.commitizen]
+version = "1.0.0"
+version_files = ["pyproject.toml:version"]
+update_changelog_on_bump = true
+tag_format = "v$version"
+bump_message = "bump: version $current_version → $new_version"
+annotated_tag = true

@@ -1,0 +1,88 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+htmlcov/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project specific
+*.sqlite3
+*.db
+staticfiles/
+media/
+.env
+.env.*
+!.env.template
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Documentation
+*.md
+LICENSE
+docs/
+*.rst
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+circle.yml
+Jenkinsfile
+
+# Testing
+tests/
+test_*.py
+*_test.py
+conftest.py
+
+# Development files
+Makefile
+docker-compose*.yml
+requirements-dev.txt
+.editorconfig
+.pre-commit-config.yaml
+pyproject.toml
+setup.cfg
+setup.py
+tox.ini
+.pylintrc
+.bandit
+ruff.toml
+
+# Temporary files
+*.log
+*.pot
+*.mo
+tmp/
+temp/

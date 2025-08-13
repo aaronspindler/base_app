@@ -7,7 +7,7 @@ on:
         description: 'Python version to use'
         required: false
         type: string
-        default: '3.12.2'
+        default: '3.13.1'
       postgres-version:
         description: 'PostgreSQL version to use'
         required: false
