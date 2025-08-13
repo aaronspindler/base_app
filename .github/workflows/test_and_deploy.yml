@@ -1,66 +1,68 @@
 name: Test and Deploy
 
-on: [ push, pull_request ]
+# This is a template repository workflow - deployment is disabled by default
+# To enable deployment, uncomment the deploy-caprover job and configure secrets
+on: 
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    types: [ opened, synchronize, reopened, ready_for_review ]
 
-env:
-  SECRET_KEY: "FAKE_SECRET_KEY"
-  DATABASE_URL: ${{secrets.DATABASE_URL}}
+# Cancel in-progress runs for PRs but not for main branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  test:
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_DB: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.12.2
-          cache: 'pip'
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install coverage
-      - name: Collect Static
-        run: |
-          python manage.py collectstatic --no-input
-      - name: Run Tests
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
-        run: |
-          coverage run --source='.' manage.py test --no-input
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+  test-and-check:
+    uses: ./.github/workflows/test-and-check.yml
+    with:
+      python-version: '3.12.2'
+      postgres-version: '15'
+      upload-coverage: true
+    # DATABASE_URL secret is optional - workflow will use local PostgreSQL if not provided
+    secrets:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
   # deploy-caprover:
   #   runs-on: ubuntu-latest
-  #   needs: [test]
-  #   if: github.ref == 'refs/heads/main'
+  #   timeout-minutes: 10
+  #   needs: test-and-check
+  #   environment:
+  #     name: production
+  #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
   #   steps:
   #     - name: Checkout code
-  #       uses: actions/checkout@v3
-  #     - uses: a7ul/tar-action@v1.1.0
-  #       with:
-  #         command: c
-  #         cwd: "./"
-  #         files: |
+  #       uses: actions/checkout@v5
+  #     - name: Create deployment archive
+  #       run: |
+  #         tar -czf deploy.tar.gz \
+  #           --exclude='.git' \
+  #           --exclude='*.pyc' \
+  #           --exclude='__pycache__' \
+  #           --exclude='venv' \
+  #           --exclude='.env' \
+  #           --exclude='staticfiles' \
+  #           --exclude='media' \
+  #           --exclude='.github' \
+  #           --exclude='*.log' \
+  #           --exclude='.DS_Store' \
   #           .
-  #         outPath: deploy.tar
   #     - name: Deploy web app
-  #       uses: caprover/deploy-from-github@v1.0.1
+  #       uses: caprover/deploy-from-github@v1.1.2
   #       with:
-  #         server: '${{ secrets.CAPROVER_SERVER }}'
+  #         server: '${{ secrets.NEW_CAPROVER_SERVER }}'
   #         app: '${{ secrets.CAPROVER_WEB_APP_NAME }}'
-  #         token: '${{ secrets.CAPROVER_WEB_APP_TOKEN }}'
+  #         token: '${{ secrets.NEW_CAPROVER_WEB_APP_TOKEN }}'
+      
+  #     - name: Wait for deployment
+  #       run: sleep 30
+      
+  #     - name: Verify Deployment Health
+  #       run: |
+  #         # Simple health check - adjust URL as needed
+  #         if [ ! -z "${{ secrets.PRODUCTION_URL }}" ]; then
+  #           curl -f ${{ secrets.PRODUCTION_URL }} || echo "Warning: Health check failed"
+  #         fi
+  #       continue-on-error: true
