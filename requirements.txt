@@ -1,6 +1,6 @@
 certifi==2025.10.5
 cffi==2.0.0
-charset-normalizer==3.4.3
+charset-normalizer==3.4.4
 crispy-bootstrap5==2025.6
 cryptography==45.0.7
 defusedxml==0.7.1
