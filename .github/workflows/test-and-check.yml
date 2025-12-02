@@ -53,7 +53,7 @@ jobs:
           --health-timeout 3s
           --health-retries 3
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           # Use the provided ref if specified, otherwise use default behavior
           ref: ${{ inputs.ref }}
