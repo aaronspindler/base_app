@@ -1,5 +1,5 @@
 # Pull base image
-FROM python:3.14.1-slim-bookworm
+FROM python:3.15.0a2-slim-bookworm
 
 ARG DATABASE_URL
 ARG DEBUG
